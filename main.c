@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <dirent.h>
+#include <string.h>
 
 char *extension = '\0';
 DIR *dir;
@@ -11,7 +12,7 @@ struct dirent *fileInDir;
 int fileCount = 0;
 
 int main(int argc, char **argv){
-    int exponentialchars = 0;
+    int exponentialchars = 1;
 
     if (argc < 2){
         fprintf(stderr, "usage: %s <directory> <optional extension>\n",
@@ -30,7 +31,9 @@ int main(int argc, char **argv){
         perror(argv[1]);
         exit(2);
     }
-    
+    while (26**exponentialchars < fileCount){
+        exponentialchars++;
+    }
     rewinddir(dir);
     while ((fileInDir = readdir(dir)) != NULL){
         
