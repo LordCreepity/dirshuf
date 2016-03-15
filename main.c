@@ -6,13 +6,14 @@
 #include <dirent.h>
 #include <string.h>
 
-char *extension = '\0';
-DIR *dir;
-struct dirent *fileInDir;
-int fileCount = 0;
-
 int main(int argc, char **argv){
-    int exponentialchars = 1;
+    char *extension = '\0';
+    DIR *dir = opendir(argv[1]);
+    DIR *dir_nameclobber = opendir(argv[1]);
+    struct dirent *fileInDir;
+    struct dirent *fileInDir_nameclobber;
+    int fileCount = 0;
+    char *newName;
 
     if (argc < 2){
         fprintf(stderr, "usage: %s <directory> <optional extension>\n",
@@ -22,20 +23,15 @@ int main(int argc, char **argv){
     if (argv[2] != NULL){
         extension = argv[2];
     }
-    dir = opendir(argv[1]);
     if (dir != NULL){
         while ((fileInDir = readdir(dir)) != NULL){
-            fileCount++;
+            newName = tempnam(argv[1], NULL);
+            while ((fileInDir_nameclobber = readdir(dir_nameclobber)) != NULL){
+                
+            }
         }
     } else {
-        perror(argv[1]);
-        exit(2);
-    }
-    while (26**exponentialchars < fileCount){
-        exponentialchars++;
-    }
-    rewinddir(dir);
-    while ((fileInDir = readdir(dir)) != NULL){
-        
+        perror(argv[1])
+        exit(2)
     }
 }
