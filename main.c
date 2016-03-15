@@ -6,13 +6,14 @@
 #include <dirent.h>
 #include <string.h>
 
+char *extension = '\0';
+char *dirname;
+
+char *namegen();
+
 int main(int argc, char **argv){
-    char *extension = '\0';
-    DIR *dir = opendir(argv[1]);
-    DIR *dir_nameclobber = opendir(argv[1]);
+    DIR *dir;
     struct dirent *fileInDir;
-    struct dirent *fileInDir_nameclobber;
-    int fileCount = 0;
     char *newName;
 
     if (argc < 2){
@@ -23,15 +24,34 @@ int main(int argc, char **argv){
     if (argv[2] != NULL){
         extension = argv[2];
     }
+    dirname = argv[1];
+    dir = opendir(dirname);
     if (dir != NULL){
         while ((fileInDir = readdir(dir)) != NULL){
-            newName = tempnam(argv[1], NULL);
-            while ((fileInDir_nameclobber = readdir(dir_nameclobber)) != NULL){
-                
-            }
+            rename(fileInDir->d_name, namegen())
         }
     } else {
-        perror(argv[1])
+        perror(dirname)
         exit(2)
     }
+    return 0;
+}
+
+/* use tempnam(3) to generate a random filename, append the filename extension
+   to it, and check to see if the completed file exists. if it does, generate
+   another name */
+
+char *namegen(){
+    char *name;
+    DIR dir;
+    struct dirent *fileInDir;
+
+doOver:
+    name = strcat(tempnam(dirname, NULL), extension);
+    while ((fileInDir == readdir(dir)) != NULL){
+        if (!strcmp(name, fileInDir->d_name)){
+            goto doOver;
+        }
+    }
+    return name;
 }
