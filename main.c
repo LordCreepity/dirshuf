@@ -37,7 +37,7 @@ int main(int argc, char **argv){
     dir = opendir(dirname);
     if (dir != NULL){
         while ((fileInDir = readdir(dir)) != NULL){
-            if (!strncmp(fileInDir->d_name, "resetfile", 9));
+            if (!strncmp(fileInDir->d_name, "resetfile", 9)){
                 continue;
             } else {
                 newName = namegen();
@@ -49,6 +49,8 @@ int main(int argc, char **argv){
         perror(dirname);
         exit(3);
     }
+    fclose(resetfile);
+    rename("resetfile", strcat(dirname, "/resetfile"));
     return 0;
 }
 
